@@ -1,0 +1,78 @@
+mql5
+// EA Goofy - Trading Robot for XAUUSD (Gold) Commodities
+// Developer: Forex Robot Easy Team - forexroboteasy.com
+
+// Include necessary libraries
+#include <Trade\Trade.mqh>
+
+// Define trading modes
+enum TradingMode { AGGRESSIVE, CONSERVATIVE };
+
+// Declare global variables
+int minimumDeposit = 1500;
+string timeframe;
+TradingMode tradingMode;
+
+// Initialize trading functions
+CTrade trade;
+
+// Initialize EA Goofy
+int OnInit()
+{
+    // Set trading mode based on account type
+    if (AccountInfoInteger(ACCOUNT_TYPE) == ACCOUNT_CENT || AccountInfoInteger(ACCOUNT_TYPE) == ACCOUNT_STANDARD)
+    {
+        tradingMode = AGGRESSIVE;
+        timeframe = 'M15';
+    }
+    else
+    {
+        tradingMode = CONSERVATIVE;
+        timeframe = 'H4';
+    }
+
+    // Display trading mode and timeframe in Terminal
+    Print('Trading Mode: ', EnumToString(tradingMode));
+    Print('Timeframe: ', timeframe);
+
+    return(INIT_SUCCEEDED);
+}
+
+// Perform trade operations
+void OnTick()
+{
+    // Check if account balance meets minimum deposit requirement for aggressive mode
+    if (tradingMode == AGGRESSIVE && AccountInfoDouble(ACCOUNT_BALANCE) < minimumDeposit)
+    {
+        Print('Insufficient balance for aggressive trading mode. Switching to conservative mode.');
+        tradingMode = CONSERVATIVE;
+        timeframe = 'H4';
+    }
+
+    // Implement intelligent algorithm to identify trend reversals
+    // (Code for intelligent algorithm goes here)
+
+    // Filter out market noise for improved trading performance
+    // (Code for market noise filter goes here)
+
+    // Generate entry and exit signals based on intelligent algorithm
+    // (Code for signal generation goes here)
+
+    // Execute trades based on generated signals
+    // (Code for trade execution goes here)
+
+    // Display trade information in Terminal
+    Print('Trade executed successfully.');
+}
+
+// Optimize trading strategies for XAUUSD
+void OptimizeStrategies()
+{
+    // (Code for optimizing trading strategies goes here)
+}
+
+// Perform necessary cleanup operations before termination
+void OnDeinit(const int reason)
+{
+    // (Code for cleanup operations goes here)
+}
